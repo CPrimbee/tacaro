@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:tacaro/shared/theme/app_theme.dart';
 
 enum ButtonType { fill, outline, none }
@@ -6,10 +7,12 @@ enum ButtonType { fill, outline, none }
 class Button extends StatelessWidget {
   final String label;
   final ButtonType type;
+  final Function() onTap;
   const Button({
     Key? key,
     required this.label,
     this.type = ButtonType.fill,
+    required this.onTap,
   }) : super(key: key);
 
   TextStyle get textStyle {
@@ -49,9 +52,7 @@ class Button extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        print("CLICK");
-      },
+      onTap: onTap,
       child: Container(
         height: 58,
         width: double.maxFinite,
