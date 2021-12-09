@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:validators/validators.dart';
+import 'package:tacaro/modules/login/pages/create_account/create_account_controller.dart';
 import 'package:tacaro/shared/button/button.dart';
-
 import 'package:tacaro/shared/input_text/input_text.dart';
 import 'package:tacaro/shared/theme/app_theme.dart';
+import 'package:validators/validators.dart';
 
-import 'login_controller.dart';
-
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class CreateAccountPage extends StatefulWidget {
+  const CreateAccountPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<CreateAccountPage> createState() => _CreateAccountPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  final controller = LoginController();
+class _CreateAccountPageState extends State<CreateAccountPage> {
+  final controller = CreateAccountController();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -45,15 +43,45 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
+      appBar: AppBar(
+        backgroundColor: AppTheme.colors.background,
+        leading: BackButton(
+          color: AppTheme.colors.backButton,
+        ),
+        elevation: 0,
+      ),
       backgroundColor: AppTheme.colors.background,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 40),
         child: Form(
           key: controller.formKey,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset("assets/images/logo.png", width: 200),
+              Text(
+                "Criando um conta",
+                style: AppTheme.textStyles.title,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                "Mantenha seus gastos em dia",
+                style: AppTheme.textStyles.subtitle,
+              ),
+              const SizedBox(
+                height: 38,
+              ),
+              InputText(
+                label: "Nome",
+                hint: "Digite seu nome",
+                onChanged: (value) => controller.onChange(name: value),
+                validator: (value) =>
+                    value.isNotEmpty ? null : "Digite uma seu nome completo",
+              ),
+              const SizedBox(
+                height: 18,
+              ),
               InputText(
                 label: "E-mail",
                 hint: "Digite seu email",
@@ -78,26 +106,17 @@ class _LoginPageState extends State<LoginPage> {
               AnimatedBuilder(
                   animation: controller,
                   builder: (_, __) => controller.state.when(
-                        loading: () => const CircularProgressIndicator(),
-                        orElse: () => Column(
-                          children: [
-                            Button(
-                                label: "Entrar",
-                                onTap: () {
-                                  controller.login();
-                                }),
-                            const SizedBox(
-                              height: 50,
-                            ),
-                            Button(
-                                label: "Criar conta",
-                                type: ButtonType.outline,
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                      context, "/login/create-account");
-                                })
+                        loading: () => Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            CircularProgressIndicator(),
                           ],
                         ),
+                        orElse: () => Button(
+                            label: "Criar conta",
+                            onTap: () {
+                              controller.create();
+                            }),
                       )),
             ],
           ),
