@@ -3,6 +3,7 @@ import 'package:tacaro/modules/home/home_page.dart';
 import 'package:tacaro/modules/login/login_page.dart';
 import 'package:tacaro/modules/login/pages/create_account/create_account_page.dart';
 import 'package:tacaro/modules/splash/splash_page.dart';
+import 'package:tacaro/shared/models/user_model.dart';
 
 class AppWidget extends StatelessWidget {
   const AppWidget({Key? key}) : super(key: key);
@@ -12,12 +13,14 @@ class AppWidget extends StatelessWidget {
     return MaterialApp(
         title: "Tá Caro?",
         theme: ThemeData(primarySwatch: Colors.green),
-        initialRoute: "/splash",
+        initialRoute: "/home",
         routes: {
           "/splash": (context) => const SplashPage(),
           "/login": (context) => const LoginPage(),
           "/login/create-account": (context) => const CreateAccountPage(),
-          "/home": (context) => const HomePage(),
+          "/home": (context) => const HomePage()
+          // "/home": (context) => HomePage(
+          //     user: ModalRoute.of(context)!.settings.arguments as UserModel),
         });
   }
 }
