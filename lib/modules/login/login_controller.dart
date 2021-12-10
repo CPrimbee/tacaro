@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
+
+import 'package:tacaro/modules/login/repositories/login_repository.dart';
+import 'package:tacaro/shared/models/user_model.dart';
 import 'package:tacaro/shared/utils/app_state.dart';
 
 class LoginController extends ChangeNotifier {
+  final LoginRepository repository;
   AppState state = AppState.empty();
 
   final formKey = GlobalKey<FormState>();
   String _email = "";
   String _password = "";
+  LoginController({
+    required this.repository,
+  });
 
   void onChange({String? email, String? password}) {
     _email = email ?? _email;
@@ -31,10 +38,13 @@ class LoginController extends ChangeNotifier {
     if (validate()) {
       try {
         update(AppState.loading());
-        await Future.delayed(const Duration(seconds: 4));
-        update(AppState.success<String>("Usuario logado"));
+        final response =
+            await repository.login(email: _email, password: _password);
+        update(AppState.success<UserModel>(response));
       } on Exception catch (e) {
-        update(AppState.error("Não foi possível realizer login"));
+        update(AppState.error(
+          e.toString(),
+        ));
       }
     }
   }
