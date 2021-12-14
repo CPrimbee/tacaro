@@ -15,16 +15,15 @@ class AppWidget extends StatelessWidget {
     return MaterialApp(
         title: "Tá Caro?",
         theme: ThemeData(primarySwatch: Colors.green),
-        initialRoute: "/home",
+        initialRoute: "/splash",
         routes: {
           "/splash": (context) => const SplashPage(),
           "/login": (context) => const LoginPage(),
           "/login/create-account": (context) => const CreateAccountPage(),
-          "/home": (context) => const HomePage(
-                pages: [FeedPage(), ProfilePage()],
+          "/home": (context) => HomePage(
+                pages: const [FeedPage(), ProfilePage()],
+                user: ModalRoute.of(context)!.settings.arguments as UserModel,
               )
-          // "/home": (context) => HomePage(
-          //     user: ModalRoute.of(context)!.settings.arguments as UserModel),
         });
   }
 }

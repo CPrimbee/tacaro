@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:tacaro/shared/models/order_model.dart';
+
 import 'package:tacaro/shared/theme/app_theme.dart';
 
 class AppListTile extends StatelessWidget {
+  final OrderModel order;
   const AppListTile({
     Key? key,
+    required this.order,
   }) : super(key: key);
 
   @override
@@ -18,17 +22,17 @@ class AppListTile extends StatelessWidget {
           leading: CircleAvatar(
             backgroundColor: AppTheme.colors.background,
             radius: 30,
-            child: const Text(
-              "12/12",
-              style: TextStyle(color: Colors.black),
+            child: Text(
+              order.created.split("-").sublist(1).reversed.join("/"),
+              style: const TextStyle(color: Colors.black),
             ),
           ),
           title: Text(
-            "Produto",
+            order.name,
             style: AppTheme.textStyles.titleListTile,
           ),
           subtitle: Text(
-            "preço",
+            "R\$ ${order.price.toStringAsFixed(2)}",
             style: AppTheme.textStyles.subtitleListTile,
           ),
           trailing: PopupMenuButton(
