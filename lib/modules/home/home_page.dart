@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:tacaro/shared/bottom_navigator/app_bottom_navigator.dart';
-import 'package:tacaro/shared/card_product/card_product.dart';
-import 'package:tacaro/shared/list_tile/app_list_tile.dart';
 
+import 'package:tacaro/modules/create/create_bottomsheet.dart';
 import 'package:tacaro/shared/models/user_model.dart';
 import 'package:tacaro/shared/theme/app_theme.dart';
+import 'package:tacaro/shared/widgets/bottom_navigator/app_bottom_navigator.dart';
 
 class HomePage extends StatefulWidget {
-  // final UserModel user;
+  final UserModel user;
+  final List<Widget> pages;
   const HomePage({
     Key? key,
-    // required this.user,
+    required this.user,
+    required this.pages,
   }) : super(key: key);
 
   @override
@@ -19,9 +20,19 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   var currentIndex = 0;
+  late final List<Widget> pages = widget.pages;
 
-  void changeIndex(int index) {
-    currentIndex = index;
+  void changeIndex(int index) async {
+    if (index == 3) {
+      await showModalBottomSheet(
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(32), topRight: Radius.circular(32))),
+          context: context,
+          builder: (context) => const CreateBottomsheet());
+    } else {
+      currentIndex = index;
+    }
     setState(() {});
   }
 
@@ -29,34 +40,25 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.colors.background,
-      body: Stack(
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: 126,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) => CardProduct(),
-                ),
-              ),
-              const AppListTile(),
-              const AppListTile(),
-              const AppListTile(),
-            ],
-          ),
-          Positioned(
-            bottom: 14,
-            left: 26,
-            right: 26,
-            child: AppBottomNavigator(
-              currentIndex: currentIndex,
-              onChanged: changeIndex,
+      body: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        child: Stack(
+          children: [
+            Container(
+              key: UniqueKey(),
+              child: List.from(pages)[currentIndex],
             ),
-          )
-        ],
+            Positioned(
+              bottom: 14,
+              left: 26,
+              right: 26,
+              child: AppBottomNavigator(
+                currentIndex: currentIndex,
+                onChanged: changeIndex,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tacaro/modules/login/repositories/login_repository_impl.dart';
 import 'package:tacaro/shared/services/app_database.dart';
+import 'package:tacaro/shared/widgets/button/button.dart';
+import 'package:tacaro/shared/widgets/input_text/input_text.dart';
 import 'package:validators/validators.dart';
-import 'package:tacaro/shared/button/button.dart';
-
-import 'package:tacaro/shared/input_text/input_text.dart';
 import 'package:tacaro/shared/theme/app_theme.dart';
 
 import 'login_controller.dart';
