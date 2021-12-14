@@ -3,7 +3,6 @@ import 'package:tacaro/modules/feed/feed_controller.dart';
 import 'package:tacaro/modules/feed/repositories/feed_repository_impl.dart';
 import 'package:tacaro/shared/models/order_model.dart';
 import 'package:tacaro/shared/services/app_database.dart';
-import 'package:tacaro/shared/services/supabase_database.dart';
 import 'package:tacaro/shared/theme/app_theme.dart';
 import 'package:tacaro/shared/widgets/card_chart/card_chart.dart';
 import 'package:tacaro/shared/widgets/card_product/card_product.dart';
