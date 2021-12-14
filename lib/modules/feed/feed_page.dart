@@ -24,7 +24,7 @@ class FeedPage extends StatelessWidget {
                 children: [
                   const CardChart(
                     value: 365.00,
-                    percent: 0.95,
+                    percent: 0.46,
                   ),
                   const SizedBox(
                     height: 27,
